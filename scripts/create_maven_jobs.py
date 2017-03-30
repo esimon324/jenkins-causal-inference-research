@@ -7,7 +7,7 @@ def main():
     username = (str)(sys.argv[2]) # Jenkins user name
     password = (str)(sys.argv[3]) # Jenkins password
     server = jenkins.Jenkins('http://'+host+':8080', username=username, password=password)
-    path = os.path.abspath("..\\data\\test_csv.csv")
+    path = os.path.abspath("..\\data\\valid_maven_repos.csv")
     
     with open('template_config.xml','r') as infile_xml:
         template_xml = infile_xml.read()
@@ -17,8 +17,9 @@ def main():
         reader = csv.reader(infile)
         for row in reader:
             job_name,repo_url = row
-            if repo_url == 'None':
-                template_xml = template_xml.replace('%PROJECT_URL%',repo_url)
-                server.create_job(job_name,template_xml)
+            if repo_url != 'None':
+                print job_name,repo_url
+                job_xml = template_xml.replace('%PROJECT_URL%',repo_url)
+                #server.create_job(job_name,template_xml)
 if __name__ == '__main__':
     main()
