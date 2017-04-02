@@ -8,19 +8,22 @@ def main():
     username = (str)(sys.argv[2]) # Jenkins user name
     password = (str)(sys.argv[3]) # Jenkins password
     server = jenkins.Jenkins('http://'+host+':8080', username=username, password=password)
-    # path = os.path.abspath("..\\data\\valid_maven_repos.csv")
-    path = os.path.abspath("..\\data\\test.csv")
+    # jobs_path = os.path.abspath("..\\data\\valid_maven_repos.csv")
+    jobs_path = os.path.abspath("..\\data\\test.csv")
+    template_path = os.path.abspath("..\\data\\template_config.xml")
+    chain_template_path = os.path.abspath("..\\data\\chain_template_config.xml")
     
-    with open('template_config.xml','r') as config:
+    with open(template_path,'r') as config:
         config_xml = config.read()
     config.close()
     
-    with open('chain_template_config.xml') as chain_config:
+    with open(chain_template_path) as chain_config:
         chain_config_xml = chain_config.read()
     chain_config.close()
     
-    with open(path,'rb') as jobs_file:
+    with open(jobs_path,'rb') as jobs_file:
         jobs = list(csv.reader(jobs_file))
+    jobs_file.close()
     random.shuffle(jobs)
     
     # create the last job first since it has no dependencies
@@ -36,8 +39,13 @@ def main():
         job_xml = job_xml.replace('%NEXT_PROJECT_NAME%',next_job_name)
         server.create_job(job_name,job_xml)
         print job_name,' -> ',next_job_name
-        
+    
+    domino_path = os.path.abspath("..\\data\\domino.txt")
+    with open(domino_path,'w') as outfile:
+        outfile.write(jobs[len(jobs)-1][0])
+    outfile.close()
     print 'First Project to Run: ', jobs[len(jobs)-1][0]
+    print 'Written to',domino_path
                
 if __name__ == '__main__':
     main()
