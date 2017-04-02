@@ -32,10 +32,10 @@ def main():
     for i in range(1,len(jobs)):
         job_name,repo_url = jobs[i]
         next_job_name,next_repo_url = jobs[i-1]
-        print job_name,' -> ',next_job_name
         job_xml = chain_config_xml.replace('%PROJECT_URL%',repo_url)
         job_xml = job_xml.replace('%NEXT_PROJECT_NAME%',next_job_name)
         server.create_job(job_name,job_xml)
+        print job_name,' -> ',next_job_name
         
     print 'First Project to Run: ', jobs[len(jobs)-1][0]
                
