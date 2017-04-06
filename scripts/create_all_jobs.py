@@ -17,12 +17,13 @@ def main():
     infile_xml.close()
     
     with open(jobs_path,'rb') as infile:
-        jobs = list(csv.reader(infile))
-    random.shuffle(jobs)
+        repos = list(csv.reader(infile))
+    infile.close()
+    random.shuffle(repos)
     
-    for job in jobs:
-        job_name,repo_url = job
-        job_xml = template_xml.replace('%PROJECT_URL%',repo_url)
+    for user,name,url in repos:
+        job_name = user+'-'+name
+        job_xml = template_xml.replace('%PROJECT_URL%',url)
         server.create_job(job_name,job_xml)
         print job_name,'CREATED'
 

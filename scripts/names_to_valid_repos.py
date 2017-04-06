@@ -11,27 +11,30 @@ def main():
             for line in infile:
                 line = line.rstrip()
                 index = line.find('-')
-                name = line[:index] + '/' + line[index+1:]
-                url = name_to_url(name)
+                user = line[:index]
+                repo = line[index+1:]
+                url = name_to_url(user,repo)
                 has_valid_url = False
                 while index >= 0:
                     if try_connection(url):
                         has_valid_url = True
                         break
                     index = line.find('-',index+1)
-                    name = line[:index] + '/' + line[index+1:]
-                    url = name_to_url(name)
+                    user = line[:index]
+                    repo = line[index+1:]
+                    url = name_to_url(user,repo)
                 
                 if has_valid_url:
-                    csvwriter.writerow([line,url])
+                    csvwriter.writerow([user,repo,url])
+                    print user,repo,url
                 else:
-                    csvwriter.writerow([line,'None'])
+                    csvwriter.writerow([user,repo,'None'])
+                    print user,repo,'NONE'
                 
 
 def try_connection(url):
     try:
         r = requests.get(url)
-        print url,r.status_code
         if r.status_code == 404:
             return False
         else:
@@ -39,8 +42,8 @@ def try_connection(url):
     except:
         return False
         
-def name_to_url(name):
-    return 'https://www.github.com/'+name
+def name_to_url(user,repo):
+    return 'https://www.github.com/'+user+'/'+repo
         
 if __name__ == '__main__':
     main()
