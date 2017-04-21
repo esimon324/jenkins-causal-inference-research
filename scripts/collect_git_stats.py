@@ -4,8 +4,16 @@ import csv
 from github import Github
 
 def main():
-    username = (str)(sys.argv[1]) # Jenkins user name
-    password = (str)(sys.argv[2]) # Jenkins password
+    username = (str)(sys.argv[1]) # Github user name
+    password = (str)(sys.argv[2]) # Github password
+    write_type = (str)(sys.argv[3]) # Opens csv with this write type
+    if len(sys.argv) > 4:
+        start = (str)(sys.argv[4]) # Users alphabetically greater than
+        end = (str)(sys.argv[5]) # Users alphabetically less than
+        not_filtering = False
+    else:
+        start, end = ''
+        not_filtering = True
     gh = Github(username,password)
     
     repos_path = os.path.abspath("..\\data\\valid_maven_repos.csv")
@@ -16,24 +24,24 @@ def main():
     
     outpath = os.path.abspath("..\\data\\git_stats.csv")
     errpath = os.path.abspath("..\\data\\git_repo_errors.txt")
-    with open(outpath,'wb') as csvfile:
+    with open(outpath,write_type) as csvfile:
         csvwriter = csv.writer(csvfile,dialect=csv.excel)
-        csvwriter.writerow(['User','Name','Size (KB)','Number of Contributors'])
-        
+        # csvwriter.writerow(['User','Name','Size (KB)','Number of Contributors'])
         user,name,url = repos[0]
         gh_user = gh.get_user(user)
-        with open(errpath,'wb') as errfile:
+        with open(errpath,write_type) as errfile:
             for user,name,url in repos:
                 if url != 'None':
-                    try: 
-                        if gh_user.name != user:
-                            gh_user = gh.get_user(user)
-                        repo = gh_user.get_repo(name)
-                        csvwriter.writerow([user,name,repo.size,num_contributors(repo.get_contributors())])
-                        print user,name
-                    except:
-                        outstr = user+','+name+','+url+'\n'
-                        errfile.write(outstr)
+                    if not_filtering or (user.lower() >= start and user.lower() < end):
+                        try: 
+                            if gh_user.name != user:
+                                gh_user = gh.get_user(user)
+                            repo = gh_user.get_repo(name)
+                            csvwriter.writerow([user,name,repo.size,num_contributors(repo.get_contributors())])
+                            print user,name
+                        except:
+                            outstr = user+','+name+','+url+'\n'
+                            errfile.write(outstr)
         errfile.close()
     csvfile.close()
     
