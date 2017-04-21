@@ -1,0 +1,9 @@
+#!/bin/bash
+for FILE in /var/lib/jenkins/jobs/*; do
+  if [ "${FILE##*/}" != "output.txt" ]; then
+    FILE_NAME=${FILE##*/}
+    INFO=$(cat $FILE/builds/1/log | grep --text "INFO" | wc -l)
+    WARN=$(cat $FILE/builds/1/log | grep --text "WARNING" | wc -l)
+    echo "$FILE_NAME,$INFO,$WARN" >> output.txt
+  fi
+done

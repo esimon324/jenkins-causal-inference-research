@@ -15,10 +15,16 @@ def main():
     for job in jobs:
         name = job['name']
         info = server.get_build_info(name,1)
-        test_info = info['actions'][4]
-        failed = test_info['failCount']
-        total = test_info['totalCount']
-        print info['duration'],info['result'],total,failed
+        testing_info = info['actions'][4]  # holds metrics on testing
+        
+        # Variables
+        duration = info['duration'] # build time in ms
+        result = info['result'] # build status
+        timestamp = info['timestamp'] # timestamp of run in UTC
+        artifacts = len(info['artifacts']) # number of artifacts created
+        failed = testing_info['failCount']  # number of failed unit tests
+        total = testing_info['totalCount'] # number of unit tests
+        print duration,result,total,failed
 
 if __name__ == '__main__':
     main()
