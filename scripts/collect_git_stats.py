@@ -26,7 +26,7 @@ def main():
     errpath = os.path.abspath("..\\data\\git_repo_errors.txt")
     with open(outpath,write_type) as csvfile:
         csvwriter = csv.writer(csvfile,dialect=csv.excel)
-        # csvwriter.writerow(['User','Name','Size (KB)','Number of Contributors'])
+        csvwriter.writerow(['User','Repo','Size (KB)','Number of Contributors'])
         user,name,url = repos[0]
         gh_user = gh.get_user(user)
         with open(errpath,write_type) as errfile:
