@@ -16,8 +16,10 @@ def main():
         not_filtering = True
     gh = Github(username,password)
     
-    repos_path = os.path.abspath("..\\data\\valid_maven_repos.csv")
-    # repos_path = os.path.abspath("..\\data\\test.csv")    
+    # repos_path = os.path.abspath("..\\data\\repositories\\valid_maven_repos.csv")
+    repos_path = os.path.abspath("..\\data\\repositories\\test.csv")
+    # repos_path = os.path.abspath("..\\data\\repositories\\test_small.csv")
+    
     with open(repos_path,'rb') as infile:
         repos = list(csv.reader(infile))
     infile.close()
@@ -26,7 +28,7 @@ def main():
     errpath = os.path.abspath("..\\data\\git_repo_errors.txt")
     with open(outpath,write_type) as csvfile:
         csvwriter = csv.writer(csvfile,dialect=csv.excel)
-        csvwriter.writerow(['User','Repo','Size (KB)','Number of Contributors'])
+        csvwriter.writerow(['user','repo','repo_size','contributors'])
         user,name,url = repos[0]
         gh_user = gh.get_user(user)
         with open(errpath,write_type) as errfile:

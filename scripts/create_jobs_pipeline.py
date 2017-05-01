@@ -8,10 +8,13 @@ def main():
     username = (str)(sys.argv[2]) # Jenkins user name
     password = (str)(sys.argv[3]) # Jenkins password
     server = jenkins.Jenkins('http://'+host+':8080', username=username, password=password)
-    # repos_path = os.path.abspath("..\\data\\valid_maven_repos.csv")
-    repos_path = os.path.abspath("..\\data\\test.csv")
-    template_path = os.path.abspath("..\\data\\template_config.xml")
-    chain_template_path = os.path.abspath("..\\data\\chain_template_config.xml")
+    
+    # repos_path = os.path.abspath("..\\data\\repositories\\valid_maven_repos.csv")
+    # repos_path = os.path.abspath("..\\data\\repositories\\test.csv")
+    repos_path = os.path.abspath("..\\data\\repositories\\test_small.csv")
+    
+    template_path = os.path.abspath("..\\data\\templates\\template_config.xml")
+    chain_template_path = os.path.abspath("..\\data\\templates\\chain_template_config.xml")
     
     with open(template_path,'r') as config:
         config_xml = config.read()
@@ -43,10 +46,10 @@ def main():
         server.create_job(job_name,job_xml)
         print job_name,' -> ',next_job_name
     
-    domino_path = os.path.abspath("..\\data\\domino.txt")
+    domino_path = os.path.abspath('..\\data\\dominos\\'+host+'.txt')
     with open(domino_path,'w') as outfile:
         user,name,url = repos[-1]
-        domino_name = user+'-'+name
+        domino_name = user+'_'+name
         outfile.write(domino_name)
     outfile.close()
     print 'First Project to Run: ', domino_name

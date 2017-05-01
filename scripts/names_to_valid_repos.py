@@ -3,10 +3,10 @@ import requests
 import os
 import csv
 def main():
-    outpath = os.path.abspath('..\\data\\valid_maven_repos.csv')
+    outpath = os.path.abspath('..\\data\\repositories\\valid_maven_repos.csv')
     with open(outpath,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,dialect=csv.excel)
-        inpath = os.path.abspath('..\\data\\maven_repository_names.txt')
+        inpath = os.path.abspath('..\\data\\repositories\\maven_repository_names.txt')
         with open(inpath,'r') as infile:
             for line in infile:
                 line = line.rstrip()

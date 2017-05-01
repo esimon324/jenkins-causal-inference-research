@@ -1,9 +1,30 @@
 #!/bin/bash
+OUTFILE=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+OUTFILE=${OUTFILE}_grep_stats.csv
+rm $OUTFILE
+echo "user,repo,info_logs,warning_logs,memory_used,memory_total,resources" >> $OUTFILE
 for FILE in /var/lib/jenkins/jobs/*; do
-  if [ "${FILE##*/}" != "output.txt" ]; then
-    FILE_NAME=${FILE##*/}
-    INFO=$(cat $FILE/builds/1/log | grep --text "INFO" | wc -l)
-    WARN=$(cat $FILE/builds/1/log | grep --text "WARNING" | wc -l)
-    echo "$FILE_NAME,$INFO,$WARN" >> output.txt
-  fi
+  FILE_NAME=${FILE##*/}
+
+  # Last build number
+  LAST_BUILD=$(ls /var/lib/jenkins/jobs/0x4E0x650x6F_jackson-core/builds | sort -n | tail -1)
+
+  # Extract the user and repository from the job name
+  SPLIT_FILE_NAME=(${FILE_NAME//_/ })
+  USER=${SPLIT_FILE_NAME[0]}
+  REPO=${SPLIT_FILE_NAME[1]}
+
+  # Log files
+  INFO=$(cat $FILE/builds/$LAST_BUILD/log | grep --text "INFO" | wc -l)
+  WARN=$(cat $FILE/builds/$LAST_BUILD/log | grep --text "WARNING" | wc -l)
+
+  # Memory
+  MEM=$(cat $FILE/builds/1/log | grep -o --text "[0-9][0-9]*M\/[0-9][0-9]*M")
+  USED=${MEM:0:2}
+  FINAL=${MEM:4:2}
+
+  # Resources
+  IFS=' ' read -a str <<< $(cat $FILE/builds/1/log | grep -o --text "Copying [0-9][0-9]* resources")
+  RES=${str[1]}
+  echo "$USER,$REPO,$INFO,$WARN,$USED,$FINAL,$RES" >> $OUTFILE
 done

@@ -1,0 +1,6 @@
+user,repo,duration,status,timestamp,artifacts,failed_tests,total_tests
+0x4E0x650x6F,jackson-core,41485,SUCCESS,1493585488984,0,0,186
+0x4E0x650x6F,Spring-data-Sample,17289,UNSTABLE,1493585530475,0,6,6
+0x4E0x650x6F,spring-portal,19834,SUCCESS,1493585547771,0,0,6
+0x4E0x650x6F,springIntegration-json,16817,UNSTABLE,1493585567610,0,2,4
+544,jsfSampleCode,21386,UNSTABLE,1493585584432,0,1,13

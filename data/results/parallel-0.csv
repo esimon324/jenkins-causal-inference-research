@@ -1,0 +1,6 @@
+user,repo,repo_size,contributors,duration,status,timestamp,artifacts,failed_tests,total_tests,info_logs,warning_logs,memory_used,memory_total,resources,is_seq,slaves
+544,jsfSampleCode,620,1,21386,UNSTABLE,1493585584432,0,1,13,49,0,21,50,7,FALSE,0
+0x4E0x650x6F,jackson-core,1356,5,41485,SUCCESS,1493585488984,0,0,186,47,2,26,63,2,FALSE,0
+0x4E0x650x6F,Spring-data-Sample,96,1,17289,UNSTABLE,1493585530475,0,6,6,42,0,19,49,3,FALSE,0
+0x4E0x650x6F,springIntegration-json,124,1,16817,UNSTABLE,1493585567610,0,2,4,77,0,19,47,2,FALSE,0
+0x4E0x650x6F,spring-portal,104,1,19834,SUCCESS,1493585547771,0,0,6,64,13,20,49,2,FALSE,0

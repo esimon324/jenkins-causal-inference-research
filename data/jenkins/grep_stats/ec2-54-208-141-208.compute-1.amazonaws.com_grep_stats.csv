@@ -1,0 +1,6 @@
+user,repo,info_logs,warning_logs,memory_used,memory_total,resources
+0x4E0x650x6F,jackson-core,47,2,26,63,2
+0x4E0x650x6F,Spring-data-Sample,42,0,19,49,3
+0x4E0x650x6F,springIntegration-json,77,0,19,47,2
+0x4E0x650x6F,spring-portal,64,13,20,49,2
+544,jsfSampleCode,49,0,21,50,7

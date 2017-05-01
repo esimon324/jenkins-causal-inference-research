@@ -11,7 +11,7 @@ def main():
     if len(sys.argv) == 5:
         job = (str)(sys.argv[4])
     else:
-        domino_path = os.path.abspath("..\\data\\domino.txt")
+        domino_path = os.path.abspath('..\\data\\dominos\\'+host+'.txt')
         with open(domino_path,'r') as infile:
             job = infile.read()
         infile.close()
